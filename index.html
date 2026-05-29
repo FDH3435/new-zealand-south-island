@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>紐西蘭南島自駕 11 日終極懶人護照 | Southern Alps 11-Day Autopilot Passport</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Cormorant Garamond (Serif) & Inter (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config for Claude Brand Style Guidelines -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            canvas: '#faf9f5',       // 暖奶油畫布
+                            primary: '#cc785c',      // 經典珊瑚紅
+                            primaryActive: '#a9583e',// 珊瑚紅按下/懸停
+                            surfaceCard: '#efe9de',  // 淺奶油色卡片
+                            surfaceDark: '#181715',  // 深藍/墨黑底色
+                            surfaceDarkElevated: '#252320',
+                            surfaceDarkSoft: '#1f1e1b',
+                            hairline: '#e6dfd8',     // 細邊框線
+                            ink: '#141413',          // 主標題深黑
+                            body: '#3d3d3a',         // 內文灰
+                            muted: '#6c6a64',        // 輔助灰
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Global Style -->
+    <style>
+        body {
+            background-color: #faf9f5;
+            color: #141413;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.6s ease, color 0.6s ease;
+        }
+        
+        .serif-display {
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* 隱藏滾動條但保持滾動功能 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faf9f5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cc785c;
+            border-radius: 4px;
+        }
+
+        /* 防呆老花模式 (Landscape MAX) 全域覆蓋樣式 */
+        body.max-mode {
+            background-color: #f5eedf !important;
+        }
+        body.max-mode .serif-display {
+            font-weight: 700 !important;
+            font-size: 130% !important;
+        }
+        body.max-mode p, body.max-mode li, body.max-mode td {
+            font-size: 1.25rem !important;
+            line-height: 1.8 !important;
+            font-weight: 600 !important;
+            color: #000000 !important;
+        }
+        body.max-mode .action-btn {
+            padding: 1.25rem 2rem !important;
+            font-size: 1.25rem !important;
+            font-weight: 800 !important;
+            border-radius: 12px !important;
+            margin-bottom: 0.75rem !important;
+            display: block !important;
+            width: 100% !important;
+            text-align: center !important;
+            box-shadow: 0 4px 10px rgba(204, 120, 92, 0.3) !important;
+        }
+        body.max-mode .scroll-section {
+            padding-top: 6rem !important;
+            padding-bottom: 6rem !important;
+            border-bottom: 3px dashed #cc785c !important;
+        }
+    </style>
+
+    <!-- GSAP & ScrollTrigger & Lenis (Smooth Scroll) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+</head>
+<body class="selection:bg-brand-primary selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full h-16 bg-brand-canvas/90 backdrop-blur-md border-b border-brand-hairline z-50 flex items-center justify-between px-4 md:px-12 transition-colors duration-500" id="main-nav">
+        <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-brand-primary" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="font-sans font-bold tracking-tight text-brand-ink text-sm md:text-base">南島 11 日自駕懶人護照</span>
+        </div>
+        
+        <!-- Toggle Button for iPhone Landscape MAX Mode -->
+        <div class="flex items-center gap-3">
+            <button id="toggle-max-mode" class="bg-brand-surfaceCard text-brand-ink border border-brand-primary hover:bg-brand-primary hover:text-white text-xs font-semibold px-4 py-2 rounded-full transition-all flex items-center gap-2 shadow-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-brand-primary inline-block" id="status-dot"></span>
+                <span>防呆/老花模式 (Landscape MAX)</span>
+            </button>
+            <a href="#lodging-console" class="hidden lg:inline-block bg-brand-primary text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-brand-primaryActive transition-colors">
+                預訂控制台
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Header / Cover Page -->
+    <header class="relative min-h-screen pt-24 pb-16 flex flex-col justify-center px-4 md:px-12 lg:px-24 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 space-y-6">
+                <div class="inline-flex items-center gap-2 bg-brand-surfaceCard text-brand-ink px-3 py-1 rounded-full text-xs font-semibold border border-brand-hairline">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse"></span>
+                    麥肯錫雙欄決策防線 · 完美安全規避
+                </div>
+                
+                <h1 class="serif-display text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-brand-ink leading-tight">
+                    紐西蘭南島自駕<br>
+                    <span class="italic text-brand-primary font-normal">11日終極懶人護照</span>
+                </h1>
+                
+                <p class="text-brand-body text-base md:text-lg max-w-xl leading-relaxed">
+                    專為車動、晃動與即時路況決策打造的極致導航手冊。獨家雙軌自選、防夜行、防黑冰警告，手指一指，一鍵調用離線地圖與座標定位，安心踏上纯淨自駕之旅。
+                </p>
+
+                <div class="bg-amber-50 border border-amber-200 text-amber-900 rounded-xl p-4 text-sm font-sans flex gap-3 max-w-xl">
+                    <svg class="w-5 h-5 text-amber-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <div>
+                        <strong class="block mb-1">自駕關鍵提示：</strong>
+                        請關閉手機螢幕方向鎖定，並將手機橫向拿持。本網頁設計已全面針對橫屏 Landscape 進行極致特大化。
+                    </div>
+                </div>
+
+                <div class="pt-2 flex flex-wrap gap-4">
+                    <a href="#map-journey" class="bg-brand-primary text-white text-sm font-semibold px-6 py-3.5 rounded-md hover:bg-brand-primaryActive transition-colors shadow-md">
+                        開啟交互軌跡航線
+                    </a>
+                    <a href="#supermarket-checklist" class="border border-brand-hairline bg-transparent text-brand-ink text-sm font-semibold px-6 py-3.5 rounded-md hover:bg-brand-surfaceCard transition-colors">
+                        超市盲選補給清單
+                    </a>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div class="bg-brand-surfaceCard rounded-2xl p-6 border border-brand-hairline shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-12 -top-12 w-48 h-48 rounded-full border border-brand-primary/10 pointer-events-none"></div>
+                    <span class="text-brand-primary text-xs font-mono tracking-widest block mb-4">ROADTRIP SPECIFICATIONS</span>
+                    <h3 class="serif-display text-2xl text-brand-ink mb-4 font-semibold">自駕基本資訊一覽</h3>
+                    
+                    <ul class="space-y-3 text-sm text-brand-body font-sans">
+                        <li class="flex justify-between border-b border-brand-hairline/60 pb-2">
+                            <span>出發/返航點</span>
+                            <span class="font-semibold text-brand-ink">基督城 (CHC)</span>
+                        </li>
+                        <li class="flex justify-between border-b border-brand-hairline/60 pb-2">
+                            <span>行車里程</span>
+                            <span class="font-semibold text-brand-ink">約 1,200 公里</span>
+                        </li>
+                        <li class="flex justify-between border-b border-brand-hairline/60 pb-2">
+                            <span>提車狀態</span>
+                            <span class="font-semibold text-brand-ink">滿油、雪鏈已配備</span>
+                        </li>
+                        <li class="flex justify-between border-b border-brand-hairline/60 pb-2">
+                            <span>核心應急電話</span>
+                            <span class="font-semibold text-brand-primary">111 (警察/火警/救護)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Content Grid with Left Sticky Map and Right Timeline -->
+    <section id="map-journey" class="relative w-full border-t border-brand-hairline bg-brand-canvas transition-colors duration-700">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
+            
+            <div class="relative grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                
+                <!-- LEFT PANEL: Dynamic Floating Map (Sticky on Desktop) -->
+                <div class="lg:col-span-5 py-8 lg:py-16 lg:h-screen lg:sticky lg:top-16 flex flex-col justify-center">
+                    <div class="bg-brand-surfaceCard rounded-2xl border border-brand-hairline p-5 shadow-sm relative h-[380px] md:h-[480px] lg:h-[75vh] flex flex-col justify-between overflow-hidden">
+                        
+                        <!-- Dynamic HUD Header -->
+                        <div class="flex justify-between items-start z-10">
+                            <div>
+                                <span class="text-[10px] uppercase tracking-widest font-mono text-brand-primary block font-bold">當前路段與定位</span>
+                                <h4 id="current-location-title" class="serif-display text-xl md:text-2xl text-brand-ink font-semibold transition-all duration-300">台北 TPE → 基督城 CHC</h4>
+                                <p id="current-location-coords" class="text-xs font-mono text-brand-muted mt-1 transition-all duration-300">43.4864° S, 172.5369° E</p>
+                            </div>
+                            <div class="bg-brand-canvas border border-brand-hairline rounded px-2.5 py-1 text-[10px] font-mono font-bold text-brand-primary shadow-sm" id="progress-indicator">
+                                DAY: 1 / 11
+                            </div>
+                        </div>
+
+                        <!-- Stylized SVG New Zealand South Island Map -->
+                        <div class="relative w-full h-full my-3 flex items-center justify-center">
+                            <svg id="south-island-svg" class="w-full h-full max-h-[250px] md:max-h-[340px] lg:max-h-[440px]" viewBox="0 0 350 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                
+                                <!-- Decorative grid overlay -->
+                                <g opacity="0.1" stroke="#cc785c" stroke-width="0.5">
+                                    <line x1="50" y1="0" x2="50" y2="450" stroke-dasharray="2 2" />
+                                    <line x1="150" y1="0" x2="150" y2="450" stroke-dasharray="2 2" />
+                                    <line x1="250" y1="0" x2="250" y2="450" stroke-dasharray="2 2" />
+                                    <line x1="0" y1="100" x2="350" y2="100" stroke-dasharray="2 2" />
+                                    <line x1="0" y1="220" x2="350" y2="220" stroke-dasharray="2 2" />
+                                    <line x1="0" y1="340" x2="350" y2="340" stroke-dasharray="2 2" />
+                                </g>
+
+                                <!-- Stylized South Island Outline Contour -->
+                                <path d="M260,110 C275,130 285,150 280,170 C275,190 240,210 220,225 C200,240 180,265 175,280 C170,295 145,330 130,355 C115,380 90,405 75,415 C60,425 45,430 40,410 C35,390 50,380 55,360 C60,340 75,320 85,290 C95,260 115,220 125,190 C135,160 150,140 165,120 C180,100 195,80 215,70 C235,60 245,90 260,110 Z" 
+                                      fill="none" 
+                                      stroke="#e6dfd8" 
+                                      stroke-width="3" 
+                                      stroke-linecap="round" 
+                                      stroke-linejoin="round" />
+
+                                <!-- SVG Animated Route Line connecting: Christchurch -> Geraldine/Fairlie -> Tekapo -> Pukaki -> Wanaka -> Queenstown -> Milford(Opt) -> Cromwell -> Chch -->
+                                <path id="journey-route" 
+                                      d="M260,150 L200,200 L180,245 L150,285 L100,320 L75,340 L55,365 L95,355 L145,295 L260,150" 
+                                      fill="none" 
+                                      stroke="#cc785c" 
+                                      stroke-width="3.5" 
+                                      stroke-dasharray="600" 
+                                      stroke-dashoffset="600" 
+                                      stroke-linecap="round" 
+                                      stroke-linejoin="round" />
+
+                                <!-- Map Nodes for Stops -->
+                                <g class="map-node cursor-pointer" data-target="day1" transform="translate(260, 150)">
+                                    <circle id="ping-day1" class="animate-ping" r="6" fill="#cc785c" opacity="0.4"/>
+                                    <circle id="node-day1" r="5.5" fill="#cc785c" stroke="#faf9f5" stroke-width="1.5"/>
+                                    <text x="10" y="4" class="serif-display text-[10px] fill-brand-ink font-bold">基督城 CHC</text>
+                                </g>
+
+                                <g class="map-node cursor-pointer" data-target="day3" transform="translate(180, 245)">
+                                    <circle id="ping-day3" class="hidden animate-ping" r="6" fill="#cc785c" opacity="0.4"/>
+                                    <circle id="node-day3" r="4.5" fill="#e6dfd8" stroke="#faf9f5" stroke-width="1.5"/>
+                                    <text x="10" y="4" class="serif-display text-[10px] fill-brand-ink">蒂卡波湖 Tekapo</text>
+                                </g>
+
+                                <g class="map-node cursor-pointer" data-target="day4" transform="translate(150, 285)">
+                                    <circle id="ping-day4" class="hidden animate-ping" r="6" fill="#cc785c" opacity="0.4"/>
+                                    <circle id="node-day4" r="4.5" fill="#e6dfd8" stroke="#faf9f5" stroke-width="1.5"/>
+                                    <text x="-58" y="4" class="serif-display text-[10px] fill-brand-ink font-bold">庫克山 Mt Cook</text>
+                                </g>
+
+                                <g class="map-node cursor-pointer" data-target="day5" transform="translate(100, 320)">
+                                    <circle id="ping-day5" class="hidden animate-ping" r="6" fill="#cc785c" opacity="0.4"/>
+                                    <circle id="node-day5" r="4.5" fill="#e6dfd8" stroke="#faf9f5" stroke-width="1.5"/>
+                                    <text x="-48" y="-4" class="serif-display text-[10px] fill-brand-ink">瓦納卡 Wanaka</text>
+                                </g>
+
+                                <g class="map-node cursor-pointer" data-target="day7" transform="translate(75, 340)">
+                                    <circle id="ping-day7" class="hidden animate-ping" r="6" fill="#cc785c" opacity="0.4"/>
+                                    <circle id="node-day7" r="4.5" fill="#e6dfd8" stroke="#faf9f5" stroke-width="1.5"/>
+                                    <text x="10" y="4" class="serif-display text-[10px] fill-brand-ink">皇后鎮 Queenstown</text>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- Technical Stats Bar in Monospace styling -->
+                        <div class="bg-brand-canvas rounded-lg border border-brand-hairline p-3 font-mono text-[10px] text-brand-muted flex items-center justify-between">
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block"></span>
+                                <span>安全氣候與道路監控連通</span>
+                            </div>
+                            <span id="driving-distance-info">TODAY: 12km</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT PANEL: Full 11-Day Detailed Itinerary -->
+                <div class="lg:col-span-7 py-8 lg:py-16 space-y-24 md:space-y-36">
+                    
+                    <!-- DAY 1 -->
+                    <section id="day1" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 1" data-title="基督城首夜右駕適應" data-coords="43.4864° S, 172.5369° E" data-dist="里程: 12km" data-theme="canvas">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 01 // 6月17日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-brand-surfaceCard border border-brand-hairline px-2 py-0.5 rounded text-brand-muted font-mono">12km</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-4">
+                            橫跨太平洋與基督城首夜右駕適應
+                        </h2>
+                        
+                        <div class="bg-brand-surfaceCard rounded-xl p-4 border border-brand-hairline/80 space-y-2 text-xs md:text-sm font-sans mb-6">
+                            <div><strong class="text-brand-ink">✈️ 航班時序：</strong> 20:40 TPE → 香港轉機 → 悉尼 → 16:35 降落基督城 (CHC)</div>
+                            <div><strong class="text-brand-ink">🏡 當晚下榻：</strong> Hotel Give (12 Hereford Street, Christchurch)</div>
+                            <div><strong class="text-brand-ink">⚙️ 提車狀態：</strong> 滿油狀態、配有雪鏈。全車刮痕拍照錄影存證！</div>
+                        </div>
+
+                        <!-- McKinsey Timeline Action Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm font-sans">
+                                <thead>
+                                    <tr class="border-b border-brand-hairline text-brand-muted text-xs uppercase tracking-wider">
+                                        <th class="pb-2 w-28">時間</th>
+                                        <th class="pb-2">行程活動與一鍵導航/定位</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">16:35-17:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <p>降落 CHC 機場。辦理入境通關，通過海關行李檢查。</p>
+                                            <div class="flex flex-wrap gap-2 pt-1">
+                                                <button onclick="window.open('https://maps.google.com/?q=-43.4864,172.5369')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded hover:bg-brand-primaryActive transition-colors">📍 定位 → CHC 機場</button>
+                                                <span class="text-xs text-red-700 bg-red-50 border border-red-200 px-2.5 py-1 rounded">⚠️ 申報警告：食物、藥品、登山鞋泥土必須誠實申報！</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">17:30-18:15</td>
+                                        <td class="py-3">
+                                            <p>前往機場租車櫃檯辦理點交車輛，確認雪鏈安裝，對全車外觀進行無死角錄影備查。</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">18:15-18:45</td>
+                                        <td class="py-3 space-y-2">
+                                            <p>自駕前往市區飯店 Check-in 放置行李。</p>
+                                            <div class="flex flex-wrap gap-2 pt-1">
+                                                <button onclick="window.open('https://maps.google.com/?q=Hotel+Give+Christchurch')" class="action-btn bg-brand-surfaceCard border border-brand-primary text-brand-primary text-xs px-3 py-1.5 rounded hover:bg-brand-primary hover:text-white transition-colors">🚙 導航 → 飯店</button>
+                                                <span class="text-xs text-brand-muted py-1">💡 駕駛守則：雙手持盤，牢記右駕及圓環「讓路右方 (Give Way to Right)」規則。</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">19:00-21:00</td>
+                                        <td class="py-3 space-y-2">
+                                            <p>於 Oxford Terrace 享用晚餐，沿優雅的雅芳河畔漫步，感受英倫小鎮夜景。今晚務必提早休息，調整右駕時差。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Oxford+Terrace+Christchurch')" class="action-btn bg-brand-primary/10 text-brand-primary text-xs px-3 py-1.5 rounded hover:bg-brand-primary hover:text-white transition-all">📍 定位 → 晚餐街區</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 2 -->
+                    <section id="day2" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 2" data-title="基督城雙軌自選與採購" data-coords="43.5321° S, 172.6362° E" data-dist="連住免換房" data-theme="card">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 02 // 6月18日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded text-emerald-800 font-mono">連住 Hotel Give</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-2">
+                            基督城開局：經典人文 vs. 阿卡羅阿港口
+                        </h2>
+                        <p class="text-xs font-semibold text-brand-primary uppercase tracking-wider mb-6 font-mono">★ 行動派設定：08:00 準時發車！</p>
+                        
+                        <!-- McKinsey Dual-Track Decision Column (A/B Choice) -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-sm">
+                            <span class="font-bold text-amber-800 block mb-1">🌤️ 橫螢幕決策防線（起床觀測）：</span>
+                            早上拉開窗簾，若是「大晴天」推薦走【選項B：阿卡羅阿出海】；若「多雲、大霧、視野差」則走【選項A：基督城市區人文之旅】。
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- Track A Card -->
+                            <div class="bg-brand-canvas border border-brand-hairline p-5 rounded-xl space-y-3">
+                                <span class="bg-brand-muted/10 text-brand-ink font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded">選項 A // 市區人文經典</span>
+                                <h4 class="serif-display text-lg font-bold">經典內環與古蹟尋蹤</h4>
+                                <p class="text-xs text-brand-muted">輕鬆慢活，無長途駕駛壓力，適合陰雨天。</p>
+                                <ul class="text-xs text-brand-body space-y-1.5 list-disc pl-4">
+                                    <li>漫步追憶橋（Bridge of Remembrance）與植物園。</li>
+                                    <li>參觀著名紙教堂（Cardboard Cathedral）。</li>
+                                    <li>市區網紅咖啡廳悠閒早午餐。</li>
+                                </ul>
+                                <button onclick="window.open('https://maps.google.com/?q=Bridge+of+Remembrance')" class="action-btn w-full bg-brand-primary text-white text-xs py-2 rounded hover:bg-brand-primaryActive transition-colors mt-2">📍 一鍵定位市區</button>
+                            </div>
+                            <!-- Track B Card -->
+                            <div class="bg-brand-surfaceDark text-brand-canvas p-5 rounded-xl space-y-3">
+                                <span class="bg-brand-primary text-white font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded">選項 B // 法式阿卡羅阿外掛</span>
+                                <h4 class="serif-display text-lg font-bold text-white">SH75 火山公路 & 港口出海</h4>
+                                <p class="text-xs text-brand-muted">行駛單程 80km 火山公路，飽覽海灣美景，適合大晴天。</p>
+                                <ul class="text-xs text-brand-canvas/80 space-y-1.5 list-disc pl-4">
+                                    <li>08:00 出發，翻越火山公路前往 Akaroa。</li>
+                                    <li>搭乘觀光游船出海，尋找稀有赫氏海豚。</li>
+                                    <li>在充满法式浪漫氛圍的街道漫步。</li>
+                                </ul>
+                                <button onclick="window.open('https://maps.google.com/?q=Akaroa')" class="action-btn w-full bg-brand-primary text-white text-xs py-2 rounded hover:bg-brand-primaryActive transition-colors mt-2">🚙 導航火山公路</button>
+                            </div>
+                        </div>
+
+                        <!-- Afternoon Unified Sequence Table -->
+                        <div class="border-t border-brand-hairline pt-6">
+                            <h4 class="serif-display text-xl font-bold mb-3">下午統一物資籌備與太平洋日落</h4>
+                            <table class="w-full text-left text-sm font-sans">
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 w-28 font-mono font-bold text-brand-primary">14:00-15:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>兩線於 Pak'nSave 超市集結大採購</strong>
+                                            <p>大舉補足水、零食與水果。內陸高海拔地區物價將貴25%以上！</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=PaknSave+Christchurch')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded mt-1 hover:bg-brand-primaryActive">🛒 導航 → Pak'nSave 超市</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">15:30-17:00</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>新布萊頓海灘長廊 (New Brighton Pier) 觀日落</strong>
+                                            <p>漫步於直直切入太平洋的巨大栈桥上。17:05 日落後請即刻返航市區飯店，嚴禁在視線不清的冬季夜間右駕行駛！</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=New+Brighton+Pier')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1.5 rounded mt-1 hover:bg-brand-hairline">📍 定位 → 海灘長廊</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 3 -->
+                    <section id="day3" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 3" data-title="基督城 → 蒂卡波湖" data-coords="44.0047° S, 170.4771° E" data-dist="里程: 230km" data-theme="canvas">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 03 // 6月19日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-brand-surfaceCard border border-brand-hairline px-2 py-0.5 rounded text-brand-muted font-mono">230km</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-4">
+                            基督城 → 蒂卡波湖：穿越坎特伯雷平原與鮭魚派名店
+                        </h2>
+                        
+                        <div class="bg-brand-surfaceCard rounded-xl p-4 border border-brand-hairline space-y-2 text-xs md:text-sm font-sans mb-6">
+                            <div><strong class="text-brand-ink">📦 行季狀態：</strong> 大行李箱牢鎖於車廂內隨車移動，勿遺漏。</div>
+                            <div><strong class="text-brand-ink">🏡 當晚下榻：</strong> Alpine Lodges (8 Darchiac Drive, Lake Tekapo)</div>
+                            <div><strong class="text-brand-ink">🛣️ 自駕軌跡：</strong> 基督城 → SH1 國道 → Geraldine (早茶) → SH79 國道 → Fairlie (鮭魚派) → SH8 國道 → 蒂卡波湖畔。</div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm font-sans">
+                                <thead>
+                                    <tr class="border-b border-brand-hairline text-brand-muted text-xs uppercase tracking-wider">
+                                        <th class="pb-2 w-28">時間</th>
+                                        <th class="pb-2">行程內容與iPhone 實戰指令</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">08:00-10:15</td>
+                                        <td class="py-3 space-y-1">
+                                            <p>退房。自駕第一階段：平原筆直好開，一路向西南駛向 Geraldine。隨時留意兩旁時速限制路牌。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Geraldine')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded hover:bg-brand-primaryActive">🚙 導航 → Geraldine</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">10:15-11:15</td>
+                                        <td class="py-3 space-y-1">
+                                            <p>停靠 Barker's Foodstore & Eatery 享用暖心早茶，建議在此採購當地限定的野生漿果醬與果汁名產。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Barkers+Foodstore+Geraldine')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1 rounded">📍 定位 → Barker's</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">11:15-12:15</td>
+                                        <td class="py-3 space-y-1">
+                                            <p>自駕第二階段：開往 Fairlie，朝聖品嚐全紐西蘭排名第一名的巨無霸金黃鮭魚派 (Fairlie Bakehouse)。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Fairlie+Bakehouse')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded hover:bg-brand-primaryActive">🚙 導航 → 鮭魚派名店</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">12:15-13:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <p>自駕第三階段：由 Fairlie 翻越一段平緩山路，正式進入景色遼闊的麥肯齊高地盆地。抵達蒂卡波湖辦理 Check-in。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Alpine+Lodges+Lake+Tekapo')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded hover:bg-brand-primaryActive">🚙 導航 → 蒂卡波旅宿</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">14:00-16:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <p>漫步至「好牧羊人教堂 (Church of the Good Shepherd)」拍攝絕美牛奶藍湖面；隨後前往蒂卡波高山溫泉 (Tekapo Springs) 享受室外熱汤泡浴，洗去駕駛疲勞。</p>
+                                            <div class="flex gap-2">
+                                                <button onclick="window.open('https://maps.google.com/?q=Church+of+the+Good+Shepherd')" class="action-btn bg-brand-surfaceCard text-brand-ink text-xs px-3 py-1 rounded border border-brand-hairline">📍 定位 → 教堂</button>
+                                                <button onclick="window.open('https://maps.google.com/?q=Tekapo+Springs')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded hover:bg-brand-primaryActive">♨️ 導航 → 高山溫泉</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">17:30-19:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <p>於 Kohan Restaurant 享用美味高山雪水鮭魚丼飯。晚上 20:30 集合參加約翰山天文台冬季暗空觀星體驗團。</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button onclick="window.open('https://maps.google.com/?q=Kohan+Restaurant+Lake+Tekapo')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1 rounded">📍 定位 → Kohan 餐廳</button>
+                                                <span class="text-xs bg-brand-surfaceDark text-white px-2.5 py-1 rounded">🗻 避寒警告：山頂極寒體感 -10 度，必須穿著極厚防風衣物！</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 4 -->
+                    <section id="day4" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 4" data-title="蒂卡波湖 → 瓦納卡" data-coords="44.4716° S, 169.1504° E" data-dist="里程: 200km" data-theme="card">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 04 // 6月20日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-brand-surfaceCard border border-brand-hairline px-2 py-0.5 rounded text-brand-muted font-mono">200km</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-2">
+                            蒂卡波湖 → 瓦納卡：庫克山雙步道自選
+                        </h2>
+                        <p class="text-xs font-semibold text-brand-primary uppercase tracking-wider mb-6 font-mono">★ 行動派設定：08:00 出發上約翰山，10:00 抵達普卡基湖進行雙線分欄決策</p>
+                        
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-sm">
+                            <span class="font-bold text-amber-800 block mb-1">🏃‍♂️ 臨時變更：雙步道體力/天氣自選防線：</span>
+                            <strong>方案 A（鐵人運動派）：</strong>走吊橋看漂浮冰河 → <strong>胡克谷步道 (Hooker Valley Track)</strong> (來回 3 小時)<br>
+                            <strong>方案 B（輕量觀景派）：</strong>爬石階登高看大冰川 → <strong>塔斯曼冰河步道 (Tasman Glacier View)</strong> (來回 40 分鐘)
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- Track A Hook Valley -->
+                            <div class="bg-brand-canvas border border-brand-hairline p-5 rounded-xl space-y-3">
+                                <span class="bg-brand-muted/10 text-brand-ink font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded">方案 A // 深入庫克山壯美吊橋</span>
+                                <h4 class="serif-display text-lg font-bold">胡克谷步道 (3hr)</h4>
+                                <p class="text-xs text-brand-muted">難度中等，三座高空懸索吊橋，終點為巨大浮冰湖。</p>
+                                <button onclick="window.open('https://maps.google.com/?q=Hooker+Valley+Track')" class="action-btn w-full bg-brand-primary text-white text-xs py-2 rounded hover:bg-brand-primaryActive mt-2">📍 定位 → 步道起點</button>
+                            </div>
+                            <!-- Track B Tasman Glacier -->
+                            <div class="bg-brand-surfaceDark text-brand-canvas p-5 rounded-xl space-y-3">
+                                <span class="bg-brand-primary text-white font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded">方案 B // 俯瞰塔斯曼冰河奇觀</span>
+                                <h4 class="serif-display text-lg font-bold text-white">塔斯曼步道 (40min)</h4>
+                                <p class="text-xs text-brand-muted">難度低，爬石階即可，能迅速俯瞰高聳冰牆與冰河湖泊。</p>
+                                <button onclick="window.open('https://maps.google.com/?q=Tasman+Glacier+View+Track')" class="action-btn w-full bg-brand-primary text-white text-xs py-2 rounded hover:bg-brand-primaryActive mt-2">📍 定位 → 步道起點</button>
+                            </div>
+                        </div>
+
+                        <!-- Unified Table for Morning and Afternoon -->
+                        <div class="border-t border-brand-hairline pt-6">
+                            <h4 class="serif-display text-xl font-bold mb-3">統一匯合時間軸（08:00 與 14:30）</h4>
+                            <table class="w-full text-left text-sm font-sans">
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 w-28 font-mono font-bold text-brand-primary">08:00-09:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>退房上約翰山頂俯瞰高空全景</strong>
+                                            <p>直攻約翰山頂天文台，在全玻璃設計的 Astro Café 享用咖啡。隨後沿 SH8 國道南下。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Astro+Cafe+Mount+John')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded mt-1">🚙 導航 → Astro Cafe</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">10:00-11:00</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>普卡基湖 (Lake Pukaki) 與高地鮭魚午餐</strong>
+                                            <p>在普卡基湖畔拍攝飽和度極高的湛藍湖面，並於 Mt Cook Alpine Salmon 農場大啖現切新鮮鮭魚生魚片。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Mt+Cook+Alpine+Salmon')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1.5 rounded mt-1">📍 定位 → 鮭魚農場</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">14:30-16:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>翻越林迪斯山口 (Lindis Pass) 入住瓦納卡</strong>
+                                            <p>安全翻越地貌如同荒涼月球表面的 Lindis Pass，於 16:30 前抵達 Wanaka Clearbrook Motel 辦理入住。</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button onclick="window.open('https://maps.google.com/?q=Clearbrook+Motel+Wanaka')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded hover:bg-brand-primaryActive">🚙 導航 → 瓦納卡飯店</button>
+                                                <span class="text-xs text-red-700 bg-red-50 border border-red-200 px-2 py-1 rounded">⚠️ 嚴防道路黑冰 (Black Ice) 警告，入冬背陰路段減速！</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 5 -->
+                    <section id="day5" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 5" data-title="瓦納卡自然全屏深度遊" data-coords="44.6976° S, 169.1251° E" data-dist="免換房自駕壓力零" data-theme="canvas">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 05 // 6月21日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded text-emerald-800 font-mono">連住 Clearbrook Motel</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-2">
+                            瓦納卡深度遊：鐵人健行 vs. 精緻休閒網美流
+                        </h2>
+                        <p class="text-xs font-semibold text-brand-primary uppercase tracking-wider mb-6 font-mono">★ 行動派設定：08:00 準時發車。上午首站統一前往鑽石湖步道健行！</p>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm font-sans">
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 w-28 font-mono font-bold text-brand-primary">08:00-10:00</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>【全體統一首站】晨攀鑽石湖步道 (Diamond Lake)</strong>
+                                            <p>一邊晨光漫步一邊登高俯瞰，將整片湛藍的瓦卡蒂普與瓦納卡湖全景盡收眼底。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Diamond+Lake+Track+Wanaka')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded">📍 定位 → 步道起點</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">10:00-13:00</td>
+                                        <td class="py-3 space-y-4">
+                                            <strong>【下午自選雙軌儀表板】點選即出發：</strong>
+                                            
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div class="bg-brand-surfaceCard border border-brand-hairline p-4 rounded-lg space-y-2">
+                                                    <span class="text-brand-primary font-bold text-xs font-mono">TRACK A / 鐵人越野</span>
+                                                    <h5 class="font-bold text-brand-ink text-sm">藍湖吊橋步道 (Blue Pools)</h5>
+                                                    <p class="text-xs text-brand-body">行駛 SH6 國道向北，在溫帶雨林與驚人清澈的溪水上空漫步吊橋 (單程 52km)。</p>
+                                                    <button onclick="window.open('https://maps.google.com/?q=Blue+Pools+Track')" class="action-btn w-full bg-brand-primary text-white text-xs py-1.5 rounded">🚙 導航 → 藍湖步道</button>
+                                                </div>
+                                                
+                                                <div class="bg-brand-surfaceCard border border-brand-hairline p-4 rounded-lg space-y-2">
+                                                    <span class="text-brand-primary font-bold text-xs font-mono">TRACK B / 網美慢活</span>
+                                                    <h5 class="font-bold text-brand-ink text-sm">薰衣草農場下午茶</h5>
+                                                    <p class="text-xs text-brand-body">參觀瓦納卡當季薰衣草農場，品嚐標誌性的現做蜂蜜冰淇淋，午後回到湖畔街區喝咖啡悠閒散步。</p>
+                                                    <button onclick="window.open('https://maps.google.com/?q=Wanaka+Lavender+Farm')" class="action-btn w-full bg-brand-muted text-white text-xs py-1.5 rounded">🚙 導航 → 薰衣草農場</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">15:30-17:00</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>【本日必選】孤獨樹夕陽倒影拍攝</strong>
+                                            <p>前往湖畔朝戰大名鼎鼎的「瓦納卡孤獨樹 (That Wanaka Tree)」，在金黃色的落日餘暉下留下絕美剪影。日落後前往鎮上享受豐盛晚餐。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=That+Wanaka+Tree')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded hover:bg-brand-primaryActive">📍 定位 → 孤獨樹座標</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 6 -->
+                    <section id="day6" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 6" data-title="瓦納卡 → 皇后鎮" data-coords="45.0312° S, 168.6626° E" data-dist="里程: 70-95km" data-theme="card">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 06 // 6月22日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-brand-surfaceCard border border-brand-hairline px-2 py-0.5 rounded text-brand-muted font-mono">70-95km</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-2">
+                            瓦納卡 → 皇后鎮：皇冠山脈最高公路 vs. 低地绕行
+                        </h2>
+                        
+                        <div class="bg-brand-surfaceCard rounded-xl p-4 border border-brand-hairline space-y-2 text-xs md:text-sm font-sans mb-6">
+                            <div><strong class="text-brand-ink">📦 行李狀態：</strong> 退房，大行李上車移動。</div>
+                            <div><strong class="text-brand-ink">🏡 當晚下榻：</strong> Scenic Suites Queenstown (23 Stanley Street, Queenstown | 連住 3 晚！)</div>
+                        </div>
+
+                        <!-- McKinsey Route Bifurcation Decision Info -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-sm">
+                            <span class="font-bold text-amber-800 block mb-1">❄️ 氣象安全路徑決策防線 (Cromwell 應變方案)：</span>
+                            <strong>選項 A（正常晴天路徑）：</strong>翻越海拔 1,076m 的【皇冠山脈公路 (Crown Range Rd)】，有數個極陡急下髮夾彎。<br>
+                            <strong>選項 B（積雪黑冰封路備案）：</strong>若氣象通報山口路面結冰嚴重，立刻改走平坦平緩的【SH6 國道】，繞經 Cromwell 水果小鎮進入皇后鎮。
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <!-- Option A -->
+                            <div class="bg-brand-canvas border border-brand-hairline p-5 rounded-xl space-y-3">
+                                <span class="bg-brand-muted/10 text-brand-ink font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded">路線 A // 頂級高山景觀線</span>
+                                <h4 class="serif-display text-lg font-bold">皇冠山脈最高鞍部</h4>
+                                <p class="text-xs text-brand-muted">海拔最高柏油路，俯瞰瓦卡蒂普盆地。注意：入髮夾彎必須手動切換至低速檔 (2檔/L檔)，嚴禁一路踩死煞車！</p>
+                                <button onclick="window.open('https://maps.google.com/?q=Crown+Range+Summit+Lookout')" class="action-btn w-full bg-brand-primary text-white text-xs py-2 rounded hover:bg-brand-primaryActive mt-2">🚙 導航最高點景觀台</button>
+                            </div>
+                            <!-- Option B -->
+                            <div class="bg-brand-surfaceDark text-brand-canvas p-5 rounded-xl space-y-3">
+                                <span class="bg-brand-primary text-white font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded">路線 B // 平坦安全繞行線</span>
+                                <h4 class="serif-display text-lg font-bold text-white">低海拔國道 (SH6)</h4>
+                                <p class="text-xs text-brand-muted">多耗時約 25 分鐘，但完全避開高山急彎與暗冰危險，雨雪天氣無條件啟用此防禦性方案。</p>
+                                <button onclick="window.open('https://maps.google.com/?q=Scenic+Drive+via+Cromwell+to+Queenstown')" class="action-btn w-full bg-emerald-600 text-white text-xs py-2 rounded hover:bg-emerald-700 mt-2">🛡️ 安全低海拔導航</button>
+                            </div>
+                        </div>
+
+                        <!-- Unified Sequence details -->
+                        <div class="border-t border-brand-hairline pt-6">
+                            <h4 class="serif-display text-xl font-bold mb-3">當天上午與下午集結行程</h4>
+                            <table class="w-full text-left text-sm font-sans">
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 w-28 font-mono font-bold text-brand-primary">08:00-11:00</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>3D錯錯迷宮世界 (Puzzling World) & 湖灣倒影</strong>
+                                            <p>先參觀趣味迷宮世界拍照打卡，隨後自駕前往格倫杜灣 (Glendhu Bay) 拍攝極緻雪山湖面倒影。</p>
+                                            <div class="flex gap-2">
+                                                <button onclick="window.open('https://maps.google.com/?q=Puzzling+World+Wanaka')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-2.5 py-1 rounded">📍 Puzzling World</button>
+                                                <button onclick="window.open('https://maps.google.com/?q=Glendhu+Bay')" class="action-btn bg-brand-primary text-white text-xs px-2.5 py-1 rounded">📍 格倫杜灣</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">11:00-13:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>卡德羅納歷史酒店 (Cardrona Hotel) 復古午餐</strong>
+                                            <p>停靠近兩百年歷史的經典老酒店，在復古溫馨壁爐旁享用熱餐，順便在路旁的「胸罩圍欄」拍照打卡。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Cardrona+Hotel')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded">🍽️ 導航 → 卡德羅納酒店</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">15:30-17:00</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>抵達皇后鎮 Scenic Suites 辦理入住</strong>
+                                            <p>兩方案皆於 15:30 前抵達皇后鎮核心景觀酒店。連續入住三晚，卸下沉重行李，徹底放鬆身心。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Scenic+Suites+Queenstown')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded hover:bg-brand-primaryActive">🚙 導航 → 皇后鎮酒店</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 7 -->
+                    <section id="day7" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 7" data-title="皇后鎮地標打卡日" data-coords="44.9388° S, 168.8312° E" data-dist="免換房自駕壓力零" data-theme="canvas">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 07 // 6月23日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded text-emerald-800 font-mono">連住 Scenic Suites</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-4">
+                            皇后鎮地標打卡：淘金箭鎮、天際纜車斜坡滑車與人氣大餐
+                        </h2>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm font-sans">
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 w-28 font-mono font-bold text-brand-primary">08:00-11:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>箭鎮 (Arrowtown) 漫步華人定居點</strong>
+                                            <p>08:00 發車前往古典的金楓古鎮「箭鎮」，漫步著名的白金漢街 (Buckingham St)，在早期華工淘金定居遺址前追溯人文滄桑歷史。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Arrowtown')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded hover:bg-brand-primaryActive">🚙 導航 → 箭鎮</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">13:00-16:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>天際纜車 (Skyline Gondola) & 連玩 5 次斜坡滑車 (Luge)</strong>
+                                            <p>搭乘南半球極限高空纜車登上鮑勃峰頂。盡情享受包含 5 次在內超刺激的 Luge 斜坡重力滑行卡丁車！</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button onclick="window.open('https://maps.google.com/?q=Skyline+Queenstown')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1 rounded">📍 定位 → 纜車站</button>
+                                                <span class="text-xs bg-brand-surfaceCard text-brand-primary border border-brand-hairline px-2 py-1 rounded font-semibold">💡 最佳體驗提示：午後 4 點前陽光最好、賽道無結霜，抓地力與滑行快感最佳。</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">17:00-18:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>朝聖 Fergburger 傳奇巨無霸漢堡</strong>
+                                            <p>排隊朝聖全紐西蘭最知名的巨無霸美式漢堡店，外帶至瓦卡蒂普湖畔一邊欣賞夢幻落日一邊大口撕咬。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Fergburger+Queenstown')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded">📍 定位 → Fergburger</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">19:00-21:00</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>【預約制頂級大餐】Flame Bar & Grill 烤肉晚宴</strong>
+                                            <p>享用外焦里嫩、肉汁爆棚的經典炭烤豬肋排與多汁頂級沙朗牛排。</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button onclick="window.open('https://maps.google.com/?q=Flame+Bar+and+Grill+Queenstown')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1 rounded">📍 定位 → Flame 餐廳</button>
+                                                <span class="text-xs text-red-700 bg-red-50 border border-red-200 px-2 py-1 rounded">🔥 核心提示：人氣名店極度火爆，必須提前一週在官網預約！</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 8 -->
+                    <section id="day8" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 8" data-title="皇后鎮自由活動日" data-coords="45.0312° S, 168.6626° E" data-dist="免換房自駕壓力零" data-theme="card">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 08 // 6月24日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded text-emerald-800 font-mono">免搬行李</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-2">
+                            自由活動日：三核心方案獨立導航儀表板
+                        </h2>
+                        <p class="text-xs text-brand-muted mb-6">當天早上起床，根據當天天氣、體力與心情，在下方三種截然不同的玩法中一鍵點選自駕或預約！</p>
+
+                        <!-- McKinsey 3-Option Interactive Board -->
+                        <div class="space-y-4">
+                            <!-- Option 1 -->
+                            <div class="bg-brand-canvas border border-brand-hairline p-5 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                <div class="space-y-1 max-w-lg">
+                                    <span class="bg-brand-primary text-white text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase">方案 A // 湖畔天堂自駕</span>
+                                    <h4 class="font-bold text-brand-ink text-base">格萊諾基 (Glenorchy) 魔戒秘境</h4>
+                                    <p class="text-xs text-brand-body leading-relaxed">沿世界級絕美湖畔公路前行，停靠紅小屋。可自選是否續行 15km 碎石路，深入「天堂之境」魔戒遠古森林。低海拔、冬季不封路、安全性高、時間自主。</p>
+                                </div>
+                                <div class="shrink-0 flex gap-2">
+                                    <button onclick="window.open('https://maps.google.com/?q=Glenorchy')" class="action-btn bg-brand-primary text-white text-xs px-4 py-2.5 rounded font-bold hover:bg-brand-primaryActive">🚙 導航前往</button>
+                                </div>
+                            </div>
+
+                            <!-- Option 2 -->
+                            <div class="bg-brand-surfaceDark text-brand-canvas p-5 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                <div class="space-y-1 max-w-lg">
+                                    <span class="bg-[#5db8a6] text-brand-surfaceDark text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase">方案 B // 世界遺產大巴遊</span>
+                                    <h4 class="font-bold text-white text-base">米佛峽灣 (Milford Sound) 巡航之旅</h4>
+                                    <p class="text-xs text-brand-muted leading-relaxed">清晨由全景天窗觀光大巴接送，行駛高山 94 號公路穿梭雪山峽谷與荷馬隧道，直達米佛峽灣搭游船看驚天飛瀑與海豹。免除冬季自駕單程 288km 的極度疲勞，晴天力薦！</p>
+                                </div>
+                                <div class="shrink-0">
+                                    <button onclick="window.open('https://maps.google.com/?q=Milford+Sound')" class="action-btn bg-[#5db8a6] text-brand-surfaceDark text-xs px-4 py-2.5 rounded font-bold hover:bg-emerald-400">🚌 一鍵導航/查路線</button>
+                                </div>
+                            </div>
+
+                            <!-- Option 3 -->
+                            <div class="bg-brand-surfaceCard border border-brand-hairline p-5 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                <div class="space-y-1 max-w-lg">
+                                    <span class="bg-brand-muted text-white text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase">方案 C // 極限運動釋放</span>
+                                    <h4 class="font-bold text-brand-ink text-base">高空彈跳發源地 & 噴射快艇</h4>
+                                    <p class="text-xs text-brand-body leading-relaxed">前往卡瓦勞橋 (Kawarau Bridge) 朝聖並挑戰 43 米急速自由落體高空跳躍；下午到沙特歐瓦河谷體驗極速甩尾、水花四濺的噴射快艇 (Shotover Jet)。剩餘時間留在鎮上莫爾大道 (The Mall) 盡情採購伴手禮。</p>
+                                </div>
+                                <div class="shrink-0 flex gap-2">
+                                    <button onclick="window.open('https://maps.google.com/?q=Kawarau+Bridge+Bungy')" class="action-btn bg-brand-primary text-white text-xs px-4 py-2.5 rounded font-bold hover:bg-brand-primaryActive">🚀 朝聖發源地</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- DAY 9 -->
+                    <section id="day9" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 9" data-title="皇后鎮 → 蒂卡波湖" data-coords="44.0047° S, 170.4771° E" data-dist="里程: 270km" data-theme="canvas">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 09 // 6月25日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-brand-surfaceCard border border-brand-hairline px-2 py-0.5 rounded text-brand-muted font-mono">270km</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-4">
+                            皇后鎮 → 蒂卡波湖：高山山口、靜水晨鏡與水果大補給
+                        </h2>
+                        
+                        <div class="bg-brand-surfaceCard rounded-xl p-4 border border-brand-hairline space-y-2 text-xs md:text-sm font-sans mb-6">
+                            <div><strong class="text-brand-ink">📦 行李狀態：</strong> 退房行李上車，展開漫長的北返拉車，車程約 3.5 小時。</div>
+                            <div><strong class="text-brand-ink">🏡 當晚下榻：</strong> The Mackenzie Suites (67 Darchiac Drive, Lake Tekapo | 頂級湖景別墅)</div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm font-sans">
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 w-28 font-mono font-bold text-brand-primary">08:00-09:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>莫克湖 (Moke Lake) 清晨完全靜止雪山倒影</strong>
+                                            <p>行李上車，退房後深入隱秘幽靜的莫克湖。清晨時分無風，湖面如鏡面般完美，可沿 Bob's Cove 步道欣賞雪山在湛藍水面上的壯麗倒影。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Moke+Lake')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded">📍 定位 → Moke Lake</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">09:30-10:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>克倫威爾水果小鎮與 Jones 觀光果園</strong>
+                                            <p>自駕第一航段：穿越卡瓦勞峽谷前往 Cromwell。參觀 Jones Family Orchard 觀光水果店，大肆補給特色乾果，**必吃店內現榨現壓純果肉水果冰淇淋**！</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Jones+Family+Orchard+Cromwell')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1 rounded">📍 定位 → 水果店</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">10:30-13:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>二度翻越林迪斯山口 (Lindis Pass) 至奧馬拉馬</strong>
+                                            <p>自駕第二航段：謹慎控制時速翻越山口，在奧馬拉馬 (Omarama) 小鎮停靠享用輕便快捷的早茶與午餐補給。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Omarama')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded">🚙 導航 → Omarama</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">13:30-15:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>返抵蒂卡波，在 15:30 前辦理 Check-in</strong>
+                                            <p>自駕第三航段：長途長途返回，順利在 15:30 前入住豪華別墅。徹底避開初冬下午五點後路面黑冰與夜間行車危險！</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=The+Mackenzie+Suites+Tekapo')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded">🚙 導航 → 豪華別墅</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 10 -->
+                    <section id="day10" class="scroll-section border-b border-brand-hairline/50 pb-12" data-day="Day 10" data-title="蒂卡波湖 → 基督城" data-coords="43.5321° S, 172.6362° E" data-dist="里程: 230km" data-theme="card">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 10 // 6月26日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-brand-surfaceCard border border-brand-hairline px-2 py-0.5 rounded text-brand-muted font-mono">230km</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-4">
+                            南島大環線完賽與大城市土產最後衝刺
+                        </h2>
+                        
+                        <div class="bg-brand-surfaceCard rounded-xl p-4 border border-brand-hairline space-y-2 text-xs md:text-sm font-sans mb-6">
+                            <div><strong class="text-brand-ink">📦 行李狀態：</strong> 退房移動，將大行李箱合理放置車內。</div>
+                            <div><strong class="text-brand-ink">🏡 當晚下榻：</strong> The Adelphi / 相關豪宅別墅公寓 (49 Papani Road, Merivale, Christchurch)</div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm font-sans">
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 w-28 font-mono font-bold text-brand-primary">08:00-10:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>離山返平原，開往 Ashburton</strong>
+                                            <p>退房發車，逐漸駛離高山冰雪路段。路面重新恢復極度平坦寬闊，非常筆直安全。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Ashburton')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded">🚙 導航 → Ashburton</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">10:30-11:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>早茶休息與車輛「補油防线」</strong>
+                                            <p>於 Ashburton 小鎮中心咖啡館享用咖啡暖胃休息，**並順便在鎮上連鎖加油站將車輛油箱完全加滿**，確保後續路途油量無虞。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Petrol+Station+Ashburton')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1 rounded">⛽ 導航 → 鎮上加油站</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">11:30-12:45</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>北上順利開回基督城 Merivale 飯店</strong>
+                                            <p>大環線平安凱旋完賽！抵達高檔 Merivale 社區別墅公寓辦理入住。</p>
+                                            <div class="flex gap-2">
+                                                <button onclick="window.open('https://maps.google.com/?q=49+Papani+Road+Christchurch')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded">🚙 導航 → 基督城飯店</button>
+                                                <span class="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded font-bold">🏁 南島大環線大獲成功！</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">13:30-17:00</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>大型購物中心與知名藥妝大衝刺</strong>
+                                            <p>開車前往知名大型 Mall 掃貨。利用隨身手提行李秤展開大行李箱配重與瘋狂打包。鎖定目標：頂級麥蘆卡蜂蜜、羊毛製品、精緻護膚護髮名產。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Shopping+Mall+Merivale+Christchurch')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded">🛒 導航 → 購物中心</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- DAY 11 -->
+                    <section id="day11" class="scroll-section" data-day="Day 11" data-title="基督城 → 機場返航" data-coords="43.4864° S, 172.5369° E" data-dist="里程: 15km" data-theme="canvas">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-brand-primary font-mono text-sm tracking-widest font-bold">DAY 11 // 6月27日</span>
+                            <div class="h-[1px] flex-grow bg-brand-hairline"></div>
+                            <span class="text-xs bg-brand-surfaceCard border border-brand-hairline px-2 py-0.5 rounded text-brand-muted font-mono">15km</span>
+                        </div>
+                        
+                        <h2 class="serif-display text-3xl md:text-4xl text-brand-ink mb-4">
+                            基督城巡禮、還車點交與平安歸航
+                        </h2>
+                        
+                        <div class="bg-brand-surfaceCard rounded-xl p-4 border border-brand-hairline space-y-2 text-xs md:text-sm font-sans mb-6">
+                            <div><strong class="text-brand-ink">✈️ 離境航班：</strong> 16:35 CHC 起飛 → 悉尼 → 香港 → 台北</div>
+                            <div><strong class="text-brand-ink">⏱️ 還車窗口：</strong> 13:00 前必須到機場還車點</div>
+                            <div><strong class="text-brand-ink">🛣️ 終極軌跡：</strong> Merivale 飯店 → 市中心廣場 → Memorial Ave → 機場旁加油站 → 租車行還車。</div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm font-sans">
+                                <tbody class="divide-y divide-brand-hairline/40">
+                                    <tr>
+                                        <td class="py-3 w-28 font-mono font-bold text-brand-primary">09:30-11:30</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>市中心電車廣場巡禮與雅芳河留影</strong>
+                                            <p>體驗經典路面復古電車，或在河畔與撐船工合照，享受南島最後的人文時光。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Christchurch+Tramway')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1 rounded">🚙 導航 → 市中心</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">11:30-12:30</td>
+                                        <td class="py-3 space-y-2">
+                                            <strong>機場旁連鎖加油站「完全加滿」</strong>
+                                            <p>自駕終點線：將車輛油箱「完全加滿（油針封頂）」，保留好小票備查，免除租車行扣款懲罰。</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button onclick="window.open('https://maps.google.com/?q=Gas+Station+near+Christchurch+Airport')" class="action-btn bg-brand-surfaceCard border border-brand-hairline text-brand-ink text-xs px-3 py-1.5 rounded">⛽ 導航 → 機場加油站</button>
+                                                <span class="text-xs text-brand-muted py-1">💡 實戰技巧：必須保留加油收據，點交時出示！</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono font-bold text-brand-primary">12:30-13:15</td>
+                                        <td class="py-3 space-y-1">
+                                            <strong>抵達還車場完成點交</strong>
+                                            <p>歸還鑰匙與雪鏈。確認車輛無新增外觀擦傷，攜帶隨身行李前往出境大廳辦理登機手續。</p>
+                                            <button onclick="window.open('https://maps.google.com/?q=Christchurch+Airport+Rental+Car+Return')" class="action-btn bg-emerald-600 text-white text-xs px-3 py-1 rounded hover:bg-emerald-700">🚙 導航還車點</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- APPENDIX A: Pak'nSave MECE Supermarket Shopping List -->
+    <section id="supermarket-checklist" class="bg-brand-surfaceCard py-16 border-t border-brand-hairline">
+        <div class="max-w-6xl mx-auto px-4 md:px-12">
+            <div class="text-center space-y-2 mb-12">
+                <span class="text-brand-primary font-mono text-xs uppercase tracking-widest font-bold">附錄一 // 超市自煮採購對照表</span>
+                <h2 class="serif-display text-3xl md:text-5xl text-brand-ink font-semibold">Pak'nSave 盲選採買盲盒</h2>
+                <p class="text-brand-body text-sm max-w-xl mx-auto font-sans">
+                    在 Pak'nSave 等大型超市採買時，手機直接橫放對照下方中英文單詞標籤。點擊方框直接打勾，保存至本機，不遺漏任何靈魂食材！
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Meat and Seafood Module -->
+                <div class="bg-brand-canvas rounded-2xl border border-brand-hairline p-6 shadow-sm">
+                    <h3 class="serif-display text-xl text-brand-ink mb-4 flex items-center gap-2">
+                        <span class="text-brand-primary font-mono font-bold">01 //</span> 頂級肉品與高山海鮮模組
+                    </h3>
+                    <div class="space-y-4">
+                        <label class="flex items-start gap-3 p-3 bg-brand-surfaceCard rounded-lg cursor-pointer hover:bg-brand-hairline/20 transition-all">
+                            <input type="checkbox" class="w-5 h-5 rounded border-brand-hairline text-brand-primary focus:ring-brand-primary mt-1" id="chk-meat1">
+                            <div>
+                                <span class="font-bold text-brand-ink text-sm block">紐西蘭小羔羊排 (Lamb Cutlets / Lamb Chops)</span>
+                                <span class="text-xs text-brand-muted">自煮必買第一名！肉質極嫩無羶味，下鍋煎熟撒海鹽黑胡椒即可。</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 bg-brand-surfaceCard rounded-lg cursor-pointer hover:bg-brand-hairline/20 transition-all">
+                            <input type="checkbox" class="w-5 h-5 rounded border-brand-hairline text-brand-primary focus:ring-brand-primary mt-1" id="chk-meat2">
+                            <div>
+                                <span class="font-bold text-brand-ink text-sm block">頂級肋眼/沙朗牛排 (Ribeye / Sirloin Steak)</span>
+                                <span class="text-xs text-brand-muted">油花極致飽滿多汁，高性價比，適合煎至五分熟。</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 bg-brand-surfaceCard rounded-lg cursor-pointer hover:bg-brand-hairline/20 transition-all">
+                            <input type="checkbox" class="w-5 h-5 rounded border-brand-hairline text-brand-primary focus:ring-brand-primary mt-1" id="chk-meat3">
+                            <div>
+                                <span class="font-bold text-brand-ink text-sm block">高山淡水鮭魚排 (Fresh Salmon Fillets)</span>
+                                <span class="text-xs text-brand-muted">帶皮鮭魚肉排。下鍋將表皮煎到金黃酥脆，或買現成生魚片盒。</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Vegetables & Seasoning Module -->
+                <div class="bg-brand-canvas rounded-2xl border border-brand-hairline p-6 shadow-sm">
+                    <h3 class="serif-display text-xl text-brand-ink mb-4 flex items-center gap-2">
+                        <span class="text-brand-primary font-mono font-bold">02 //</span> 新鮮蔬菜與萬用調味
+                    </h3>
+                    <div class="space-y-4">
+                        <label class="flex items-start gap-3 p-3 bg-brand-surfaceCard rounded-lg cursor-pointer hover:bg-brand-hairline/20 transition-all">
+                            <input type="checkbox" class="w-5 h-5 rounded border-brand-hairline text-brand-primary focus:ring-brand-primary mt-1" id="chk-veg1">
+                            <div>
+                                <span class="font-bold text-brand-ink text-sm block">方便蔬菜 (Mushrooms / Baby Spinach / Salad Mix)</span>
+                                <span class="text-xs text-brand-muted">洗淨免切洋菇、嫩菠菜及大盒綜合沙拉，下鍋炒肉或開盒即食，迅速補給纖維。</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 bg-brand-surfaceCard rounded-lg cursor-pointer hover:bg-brand-hairline/20 transition-all">
+                            <input type="checkbox" class="w-5 h-5 rounded border-brand-hairline text-brand-primary focus:ring-brand-primary mt-1" id="chk-veg2">
+                            <div>
+                                <span class="font-bold text-brand-ink text-sm block">靈魂蒜香奶油 (Garlic Butter) 與黑胡椒海鹽研磨瓶</span>
+                                <span class="text-xs text-brand-muted">萬用神物組合，一鍵搞定羊排與牛排的所有複雜調味需求。</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 bg-brand-surfaceCard rounded-lg cursor-pointer hover:bg-brand-hairline/20 transition-all">
+                            <input type="checkbox" class="w-5 h-5 rounded border-brand-hairline text-brand-primary focus:ring-brand-primary mt-1" id="chk-veg3">
+                            <div>
+                                <span class="font-bold text-brand-ink text-sm block">冬日保暖熱量 (Hot Chocolate / Honey Lozenges)</span>
+                                <span class="text-xs text-brand-muted">麥蘆卡蜂蜜糖與濃醇熱可可粉。約翰山觀星與冬季戶外健行的救命取暖法寶。</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- APPENDIX B: Strategic Lodging Console -->
+    <section id="lodging-console" class="bg-brand-surfaceDark text-brand-canvas py-16 border-t border-brand-hairline/20">
+        <div class="max-w-6xl mx-auto px-4 md:px-12 space-y-12">
+            <div class="text-center space-y-2">
+                <span class="text-brand-primary font-mono text-xs uppercase tracking-widest font-bold">附錄二 // 全旅宿戰略控制台</span>
+                <h2 class="serif-display text-3xl md:text-5xl text-white font-semibold">Lodging Control Hub</h2>
+                <p class="text-brand-muted text-sm max-w-xl mx-auto font-sans">
+                    快速查閱 11 日宿點、地址、經緯度及退預約底線。手指點擊地址可快速呼叫 Google Maps 定位導航。
+                </p>
+            </div>
+
+            <div class="overflow-x-auto border border-brand-hairline/10 rounded-xl bg-brand-surfaceDarkElevated">
+                <table class="w-full text-left text-sm font-sans min-w-[700px]">
+                    <thead>
+                        <tr class="border-b border-brand-hairline/10 text-brand-muted text-xs uppercase tracking-wider bg-black/20">
+                            <th class="p-4">天數</th>
+                            <th class="p-4">中英文旅宿名稱</th>
+                            <th class="p-4">精確地址與經緯度</th>
+                            <th class="p-4">取消截止期限</th>
+                            <th class="p-4 text-right">一鍵定位</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-brand-hairline/5">
+                        <tr class="hover:bg-brand-surfaceDarkSoft transition-colors">
+                            <td class="p-4 font-mono font-bold text-brand-primary">D1 - D2</td>
+                            <td class="p-4">
+                                <span class="font-semibold block">Hotel Give</span>
+                                <span class="text-xs text-brand-muted">基督城中央青年旅社</span>
+                            </td>
+                            <td class="p-4 text-xs text-brand-muted">
+                                12 Hereford Street, Christchurch Central City
+                            </td>
+                            <td class="p-4 text-xs text-amber-500 font-mono">04/15 11:59</td>
+                            <td class="p-4 text-right">
+                                <button onclick="window.open('https://maps.google.com/?q=Hotel+Give+Christchurch')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded hover:bg-brand-primaryActive">📍 定位</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-brand-surfaceDarkSoft transition-colors">
+                            <td class="p-4 font-mono font-bold text-brand-primary">D3</td>
+                            <td class="p-4">
+                                <span class="font-semibold block">Alpine Lodges</span>
+                                <span class="text-xs text-brand-muted">蒂卡波湖高山旅館</span>
+                            </td>
+                            <td class="p-4 text-xs text-brand-muted">
+                                8 Darchiac Drive, Lake Tekapo
+                            </td>
+                            <td class="p-4 text-xs text-amber-500 font-mono">04/11 11:59</td>
+                            <td class="p-4 text-right">
+                                <button onclick="window.open('https://maps.google.com/?q=Alpine+Lodges+Lake+Tekapo')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded hover:bg-brand-primaryActive">📍 定位</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-brand-surfaceDarkSoft transition-colors">
+                            <td class="p-4 font-mono font-bold text-brand-primary">D4 - D5</td>
+                            <td class="p-4">
+                                <span class="font-semibold block">Clearbrook Motel</span>
+                                <span class="text-xs text-brand-muted">瓦納卡克利爾布魯克汽車旅館</span>
+                            </td>
+                            <td class="p-4 text-xs text-brand-muted">
+                                72 Helwick Street, Wanaka
+                            </td>
+                            <td class="p-4 text-xs text-amber-500 font-mono">06/15 12:59</td>
+                            <td class="p-4 text-right">
+                                <button onclick="window.open('https://maps.google.com/?q=Clearbrook+Motel+Wanaka')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded hover:bg-brand-primaryActive">📍 定位</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-brand-surfaceDarkSoft transition-colors">
+                            <td class="p-4 font-mono font-bold text-brand-primary">D6 - D8</td>
+                            <td class="p-4">
+                                <span class="font-semibold block">Scenic Suites Queenstown</span>
+                                <span class="text-xs text-brand-muted">皇后鎮景緻套房酒店</span>
+                            </td>
+                            <td class="p-4 text-xs text-brand-muted">
+                                23 Stanley Street, Central Otago, Queenstown
+                            </td>
+                            <td class="p-4 text-xs text-amber-500 font-mono">04/19 23:59</td>
+                            <td class="p-4 text-right">
+                                <button onclick="window.open('https://maps.google.com/?q=Scenic+Suites+Queenstown')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded hover:bg-brand-primaryActive">📍 定位</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-brand-surfaceDarkSoft transition-colors">
+                            <td class="p-4 font-mono font-bold text-brand-primary">D9</td>
+                            <td class="p-4">
+                                <span class="font-semibold block">The Mackenzie Suites</span>
+                                <span class="text-xs text-brand-muted">麥肯錫頂級別墅</span>
+                            </td>
+                            <td class="p-4 text-xs text-brand-muted">
+                                67 Darchiac Drive, Lake Tekapo
+                            </td>
+                            <td class="p-4 text-xs text-amber-500 font-mono">06/17 11:38</td>
+                            <td class="p-4 text-right">
+                                <button onclick="window.open('https://maps.google.com/?q=The+Mackenzie+Suites+Tekapo')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded hover:bg-brand-primaryActive">📍 定位</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-brand-surfaceDarkSoft transition-colors">
+                            <td class="p-4 font-mono font-bold text-brand-primary">D10</td>
+                            <td class="p-4">
+                                <span class="font-semibold block">The Adelphi Apartments</span>
+                                <span class="text-xs text-brand-muted">阿德菲豪華別墅公寓</span>
+                            </td>
+                            <td class="p-4 text-xs text-brand-muted">
+                                49 Papani Road, Merivale, Christchurch
+                            </td>
+                            <td class="p-4 text-xs text-amber-500 font-mono">06/18 17:11</td>
+                            <td class="p-4 text-right">
+                                <button onclick="window.open('https://maps.google.com/?q=49+Papani+Road+Christchurch')" class="action-btn bg-brand-primary text-white text-xs px-3 py-1.5 rounded hover:bg-brand-primaryActive">📍 定位</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6">
+                <!-- Emergency Hotline Info -->
+                <div class="bg-brand-surfaceDarkElevated rounded-xl p-6 border border-brand-hairline/10 space-y-4">
+                    <h4 class="font-bold text-white text-lg flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                        🚨 應急救援安全工具鏈
+                    </h4>
+                    <ul class="text-sm text-brand-muted space-y-2">
+                        <li><strong class="text-white">通用緊急救難電話：</strong> <span class="text-brand-primary font-bold">111</span>（醫療、消防、警察通用）</li>
+                        <li><strong class="text-white">AA 道路救援電話：</strong> <span class="text-brand-primary font-bold">0800 500 222</span></li>
+                        <li><strong class="text-white">CamperMate App：</strong> 找免費公廁、最近加油站與露營點的必備軟體。</li>
+                        <li><strong class="text-white">Google Maps 離線版：</strong> 出發前必須在市區 WiFi 下載整張南島離線地圖。</li>
+                    </ul>
+                </div>
+
+                <!-- 5-Second Security Checklist -->
+                <div class="bg-brand-surfaceDarkElevated rounded-xl p-6 border border-brand-hairline/10 space-y-4">
+                    <h4 class="font-bold text-white text-lg">📝 出發前最終 5 秒防呆清單</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-brand-muted">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="rounded border-brand-hairline text-brand-primary">
+                            <span>台灣駕照 + 國際駕照正本</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="rounded border-brand-hairline text-brand-primary">
+                            <span>護照 (效期 6 個月以上)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="rounded border-brand-hairline text-brand-primary">
+                            <span>偏光太陽眼鏡 (防眩光/黑冰)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="rounded border-brand-hairline text-brand-primary">
+                            <span>車用點菸器點對頭 + 數據線</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="bg-brand-surfaceDark text-brand-canvas/60 py-12 border-t border-brand-hairline/10 text-center text-xs">
+        <p class="serif-display text-base text-white mb-2">紐西蘭南島 11 日終極自駕懶人護照</p>
+        <p class="font-mono">© 2026 SOUTHERN ALPS AUTOPILOT INC. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        window.onload = function() {
+            
+            // 1. 初始化 Lenis 絲滑物理滾動
+            const lenis = new Lenis({
+                duration: 1.3,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+                infinite: false,
+            });
+
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+
+            // 2. 註冊 GSAP ScrollTrigger 插件
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 獲取地圖 SVG 及繪圖路徑長度
+            const routePath = document.getElementById('journey-route');
+            const totalLength = routePath.getTotalLength();
+            
+            gsap.set(routePath, {
+                strokeDasharray: totalLength,
+                strokeDashoffset: totalLength
+            });
+
+            // 3. 核心滾動互動：控制地圖路線延伸
+            const mapTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '#map-journey',
+                    start: 'top 20%',
+                    end: 'bottom 85%',
+                    scrub: 1.2,
+                }
+            });
+
+            mapTimeline.to(routePath, {
+                strokeDashoffset: 0,
+                ease: 'none'
+            });
+
+            // 4. 精確跟隨滾動進度：為每個 Section 綁定觸發點
+            const sections = document.querySelectorAll('.scroll-section');
+            const locTitle = document.getElementById('current-location-title');
+            const locCoords = document.getElementById('current-location-coords');
+            const progressIndicator = document.getElementById('progress-indicator');
+            const drivingDistanceInfo = document.getElementById('driving-distance-info');
+            const mainNav = document.getElementById('main-nav');
+            const bodyEl = document.body;
+
+            sections.forEach((section, index) => {
+                const dayLabel = section.getAttribute('data-day');
+                const locName = section.getAttribute('data-title');
+                const coords = section.getAttribute('data-coords');
+                const distInfo = section.getAttribute('data-dist');
+                const theme = section.getAttribute('data-theme');
+                const stopId = section.id;
+
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: 'top 35%',
+                    end: 'bottom 35%',
+                    onEnter: () => activateStop(stopId, dayLabel, locName, coords, distInfo, theme),
+                    onEnterBack: () => activateStop(stopId, dayLabel, locName, coords, distInfo, theme),
+                });
+            });
+
+            // 啟用並點亮當前停靠站
+            function activateStop(id, day, name, coords, dist, theme) {
+                // 更新左側面板 HUD
+                gsap.to([locTitle, locCoords, drivingDistanceInfo], {
+                    opacity: 0, 
+                    y: -10, 
+                    duration: 0.15, 
+                    onComplete: () => {
+                        locTitle.innerText = name;
+                        locCoords.innerText = coords;
+                        drivingDistanceInfo.innerText = `TODAY: ${dist}`;
+                        gsap.to([locTitle, locCoords, drivingDistanceInfo], { opacity: 1, y: 0, duration: 0.25 });
+                    }
+                });
+
+                progressIndicator.innerText = `${day} / 11`;
+
+                // 控制地圖上所有圓點 (Nodes) 的高亮
+                const nodes = ['day1', 'day3', 'day4', 'day5', 'day7'];
+                nodes.forEach(node => {
+                    const nodeCircle = document.getElementById(`node-${node}`);
+                    const nodePing = document.getElementById(`ping-${node}`);
+                    
+                    if (nodeCircle) {
+                        if (node === id) {
+                            gsap.to(nodeCircle, { fill: '#cc785c', r: 7.5, duration: 0.3 });
+                            if (nodePing) nodePing.classList.remove('hidden');
+                        } else {
+                            gsap.to(nodeCircle, { fill: '#efe9de', r: 4.5, duration: 0.3 });
+                            if (nodePing) nodePing.classList.add('hidden');
+                        }
+                    }
+                });
+
+                // 實施頁面色彩過渡
+                if (theme === 'dark') {
+                    gsap.to(bodyEl, { backgroundColor: '#181715', color: '#faf9f5', duration: 0.5 });
+                    gsap.to(mainNav, { backgroundColor: '#181715/90', borderColor: '#252320', duration: 0.5 });
+                } else if (theme === 'card') {
+                    gsap.to(bodyEl, { backgroundColor: '#efe9de', color: '#141413', duration: 0.5 });
+                    gsap.to(mainNav, { backgroundColor: '#efe9de/90', borderColor: '#e6dfd8', duration: 0.5 });
+                } else {
+                    gsap.to(bodyEl, { backgroundColor: '#faf9f5', color: '#141413', duration: 0.5 });
+                    gsap.to(mainNav, { backgroundColor: '#faf9f5/90', borderColor: '#e6dfd8', duration: 0.5 });
+                }
+            }
+
+            // 地圖節點互動點擊滾動
+            const mapNodes = document.querySelectorAll('.map-node');
+            mapNodes.forEach(node => {
+                node.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        lenis.scrollTo(targetEl, {
+                            offset: -80,
+                            duration: 1.2,
+                            immediate: false
+                        });
+                    }
+                });
+            });
+
+            // 5. iPhone 橫屏特大老花防呆模式 (Landscape MAX) 切換邏輯
+            const toggleBtn = document.getElementById('toggle-max-mode');
+            const statusDot = document.getElementById('status-dot');
+            
+            toggleBtn.addEventListener('click', () => {
+                const isMax = bodyEl.classList.toggle('max-mode');
+                if (isMax) {
+                    statusDot.classList.replace('bg-brand-primary', 'bg-emerald-500');
+                    toggleBtn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                } else {
+                    statusDot.classList.replace('bg-emerald-500', 'bg-brand-primary');
+                    toggleBtn.classList.remove('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                }
+                // 觸發重新整理 ScrollTrigger 確保排版拉伸後定位點無損
+                ScrollTrigger.refresh();
+            });
+
+            // 6. 保存與讀取本地超市採購進度 (盲選盲盒持久化)
+            const checkboxes = document.querySelectorAll('#supermarket-checklist input[type="checkbox"]');
+            checkboxes.forEach(chk => {
+                const key = chk.id;
+                // 初始化讀取
+                const saved = localStorage.getItem(key);
+                if (saved === 'true') {
+                    chk.checked = true;
+                }
+                // 狀態點擊保存
+                chk.addEventListener('change', () => {
+                    localStorage.setItem(key, chk.checked);
+                });
+            });
+        };
+    </script>
+</body>
+</html>
